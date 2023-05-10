@@ -80,7 +80,7 @@
                 })
             }
             {
-                modal == true ? <Modal/> : null
+                modal == true ? <Modal color={'skyblue'} 글제목={글제목} changeTitle={changeTitle}/> : null
             }
         </div>
         );
@@ -93,12 +93,21 @@
     * 자주 변경되는 것들
     * */
 
-    function Modal() { // 컴포넌트 생성
+    /* 부모->자식 state 전송하려면 props 문법 사용 (부모에서 자식으로만 전송 가능)
+    1. <자식컴포넌트 작명={state이름}>
+    2. props 파라미터 등록 후 props.작명 사용
+    * */
+
+    function Modal(props) { // 컴포넌트 생성
         return (
-            <div className="modal">
-                <h4>제목</h4>
+            <div className="modal" style={{background : props.color}}>
+                <h4>{props.글제목[0]}</h4>
                 <p>날짜</p>
                 <p>상세내용</p>
+                <button onClick={()=>{
+                    let titles = [...props.글제목]
+                    titles[0] = '여자 코트 추천'
+                    props.changeTitle(titles)}}>글수정</button>
             </div>
         )
     }
