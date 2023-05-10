@@ -19,7 +19,7 @@
     // let [a, c] = [1, 2];  //Destructing 문법
     // let a = num[0];
     // let c = num[1];
-    let [like, changeLike] = useState(0); // state를 변경하고 싶으면 state변경 함수를 사용
+    let [like, changeLike] = useState([0,1,2]); // state를 변경하고 싶으면 state변경 함수를 사용
     let [tt, changeTt] = useState('남자코트'); // state를 변경하고 싶으면 state변경 함수를 사용
 
     let [modal, setModal] = useState(false); // UI의 현재 상태를 state로 저장, state조절을 통해 노출 가능
@@ -50,20 +50,35 @@
                 changeTitle(copy);
             }}>글수정
             </button>
-            <div className="list">
-                <h4>{글제목[0]} <span onClick={() => {
-                    changeLike(like + 1)
-                }}>👍</span> {like} </h4>
-                <p>2월 17일 발행</p>
-            </div>
-            <div className="list">
-                <h4>{글제목[1]}</h4>
-                <p>2월 17일 발행</p>
-            </div>
-            <div className="list">
-                <h4 onClick={()=>{setModal(!modal)}}>{글제목[2]}</h4>
-                <p>2월 17일 발행</p>
-            </div>
+            {/*<div className="list">*/}
+            {/*    <h4>{글제목[0]} <span onClick={() => {*/}
+            {/*        changeLike(like + 1)*/}
+            {/*    }}>👍</span> {like} </h4>*/}
+            {/*    <p>2월 17일 발행</p>*/}
+            {/*</div>*/}
+            {/*<div className="list">*/}
+            {/*    <h4>{글제목[1]}</h4>*/}
+            {/*    <p>2월 17일 발행</p>*/}
+            {/*</div>*/}
+            {/*<div className="list">*/}
+            {/*    <h4 onClick={()=>{setModal(!modal)}}>{글제목[2]}</h4>*/}
+            {/*    <p>2월 17일 발행</p>*/}
+            {/*</div>*/}
+            {
+                글제목.map(function (a, i) {
+                    return (
+                        <div className="list" key={i}>
+                            <h4 onClick={()=>{setModal(!modal)}}>{ a } <span onClick={() => {
+                                let likes = [...like];
+                                likes[i] = likes[i] + 1
+                                changeLike(likes)
+                            }}> 👍 </span> { like[i]} </h4>
+                            {/*<h4>{ 글제목[i] }</h4> */}
+                            <p>2월 17일 발행</p>
+                        </div>
+                    )
+                })
+            }
             {
                 modal == true ? <Modal/> : null
             }
