@@ -24,6 +24,8 @@
 
     let [modal, setModal] = useState(false); // UI의 현재 상태를 state로 저장, state조절을 통해 노출 가능
 
+    let [title, setTitle] = useState(0);
+
 /*
 * state 변경함수의 특징
 * 기존state == 신규state : 변경해주지 않음
@@ -68,7 +70,7 @@
                 글제목.map(function (a, i) {
                     return (
                         <div className="list" key={i}>
-                            <h4 onClick={()=>{setModal(!modal)}}>{ a } <span onClick={() => {
+                            <h4 onClick={()=>{setModal(true); setTitle(i)}}>{ a } <span onClick={() => {
                                 let likes = [...like];
                                 likes[i] = likes[i] + 1
                                 changeLike(likes)
@@ -80,7 +82,7 @@
                 })
             }
             {
-                modal == true ? <Modal color={'skyblue'} 글제목={글제목} changeTitle={changeTitle}/> : null
+                modal == true ? <Modal color={'skyblue'} 글제목={글제목} changeTitle={changeTitle} title={title} /> : null
             }
         </div>
         );
@@ -101,7 +103,7 @@
     function Modal(props) { // 컴포넌트 생성
         return (
             <div className="modal" style={{background : props.color}}>
-                <h4>{props.글제목[0]}</h4>
+                <h4>{props.글제목[props.title]}</h4>
                 <p>날짜</p>
                 <p>상세내용</p>
                 <button onClick={()=>{
