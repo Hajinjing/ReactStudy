@@ -86,15 +86,15 @@
 
             <input onChange={(e)=>{
                 changeValue(e.target.value);
-                console.log(inputValue)
             }}/>
             <button onClick={()=>{
                 let newTitle = [...글제목];
-                newTitle.push(inputValue)
+                newTitle.unshift(inputValue) // 맨 앞에
+                // newTitle.push(inputValue) // 맨 뒤에
                 changeTitle(newTitle)
 
                 let likes = [...like];
-                likes.push(0)
+                likes.unshift(0)
                 changeLike(likes)
             }}>입력</button>
             
@@ -127,11 +127,7 @@
                     let titles = [...props.글제목]
                     titles[0] = '여자 코트 추천'
                     props.changeTitle(titles)}}>글수정</button>
-                <button onClick={()=>{
-                    let titles = [...props.글제목]
-                    titles.splice(props.title, 1)
-                    props.changeTitle(titles)
-                }}>글삭제</button>
+
             </div>
         )
     }
