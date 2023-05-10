@@ -25,6 +25,7 @@
     let [modal, setModal] = useState(false); // UI의 현재 상태를 state로 저장, state조절을 통해 노출 가능
 
     let [title, setTitle] = useState(0);
+    let [inputValue, changeValue] = useState('');
 
 /*
 * state 변경함수의 특징
@@ -70,7 +71,8 @@
                 글제목.map(function (a, i) {
                     return (
                         <div className="list" key={i}>
-                            <h4 onClick={()=>{setModal(true); setTitle(i)}}>{ a } <span onClick={() => {
+                            <h4 onClick={()=>{setModal(true); setTitle(i)}}>{ a } <span onClick={(e) => {
+                                e.stopPropagation(); // 상위 html로 퍼지는 이벤트 버블링을 막기
                                 let likes = [...like];
                                 likes[i] = likes[i] + 1
                                 changeLike(likes)
@@ -81,6 +83,21 @@
                     )
                 })
             }
+
+            <input onChange={(e)=>{
+                changeValue(e.target.value);
+                console.log(inputValue)
+            }}/>
+            <button onClick={()=>{
+                let newTitle = [...글제목];
+                newTitle.push(inputValue)
+                changeTitle(newTitle)
+
+                let likes = [...like];
+                likes.push(0)
+                changeLike(likes)
+            }}>입력</button>
+            
             {
                 modal == true ? <Modal color={'skyblue'} 글제목={글제목} changeTitle={changeTitle} title={title} /> : null
             }
@@ -110,6 +127,11 @@
                     let titles = [...props.글제목]
                     titles[0] = '여자 코트 추천'
                     props.changeTitle(titles)}}>글수정</button>
+                <button onClick={()=>{
+                    let titles = [...props.글제목]
+                    titles.splice(props.title, 1)
+                    props.changeTitle(titles)
+                }}>글삭제</button>
             </div>
         )
     }
