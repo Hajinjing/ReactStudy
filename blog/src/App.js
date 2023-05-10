@@ -22,6 +22,8 @@
     let [like, changeLike] = useState(0); // state를 변경하고 싶으면 state변경 함수를 사용
     let [tt, changeTt] = useState('남자코트'); // state를 변경하고 싶으면 state변경 함수를 사용
 
+    let [modal, setModal] = useState(false); // UI의 현재 상태를 state로 저장, state조절을 통해 노출 가능
+
 /*
 * state 변경함수의 특징
 * 기존state == 신규state : 변경해주지 않음
@@ -59,11 +61,12 @@
                 <p>2월 17일 발행</p>
             </div>
             <div className="list">
-                <h4>{글제목[2]}</h4>
+                <h4 onClick={()=>{setModal(!modal)}}>{글제목[2]}</h4>
                 <p>2월 17일 발행</p>
             </div>
-            <Modal></Modal>
-            <Modal/>
+            {
+                modal == true ? <Modal/> : null
+            }
         </div>
         );
     }
