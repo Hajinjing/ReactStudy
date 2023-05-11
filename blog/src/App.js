@@ -101,6 +101,7 @@
             {
                 modal == true ? <Modal color={'skyblue'} 글제목={글제목} changeTitle={changeTitle} title={title} /> : null
             }
+            {/*<Modal2></Modal2>*/}
         </div>
         );
     }
@@ -131,6 +132,19 @@
             </div>
         )
     }
+
+    // class Modal2 extends React.Component {
+    //     constructor() {
+    //         super();
+    //         this.state = {
+    //             name: 'kim',
+    //             age: 20
+    //         }
+    //     }
+    //     render() {
+    //         <div>안녕 {this.state.name}</div>
+    //     }
+    // }
 
 
 
