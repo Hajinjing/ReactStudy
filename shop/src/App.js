@@ -41,7 +41,7 @@ function App() {
                     </div>
                     </>
                 }/>
-                <Route path={"/detail"} element={<ItemDetail/>} />
+                <Route path={"/detail/:id"} element={<ItemDetail shoes={shoes}/>} />
 
                 {/*nested routes /about/member 로 접근했을때, element가 2개 보임*/}
                 <Route path={"/about"} element={<About/>}>
@@ -54,6 +54,12 @@ function App() {
 
                 <Route path={"/about"} element={<About/>} />
                 <Route path={"*"} element={<div>존재하지 않는 페이지입니다.</div>} />
+
+                <Route path={"/event"} element={<EventPage/>} >
+                    <Route path={"one"} element={<div>첫 주문시 양배추즙 서비스</div>}/>
+                    <Route path={"two"} element={<div>생일기념 쿠폰받기</div>}/>
+                    <Route />
+                </Route>
             </Routes>
 
 
@@ -66,6 +72,15 @@ function About() {
         <div>
             <h4>회사정보임</h4>
             <Outlet></Outlet> {/* nested routes의 element 보여주는 곳 */}
+        </div>
+    )
+}
+
+function EventPage() {
+    return (
+        <div>
+            <h4>오늘의 이벤트</h4>
+            <Outlet></Outlet>
         </div>
     )
 }
