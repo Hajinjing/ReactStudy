@@ -13,29 +13,49 @@ html랜더링이 느려짐
 
 function ItemDetail(props) {
 
-    // mount, update시 실행됨
-    useEffect(()=>{
-        console.log('실행');
-    })
-
-
 
     let [count, setCount] = useState(0)
-    let [alert, showAlert] = useState(true);
+    let [text, showAlert] = useState(true);
+    let [value, changeValue] = useState('')
 
     let {id} = useParams();
     // console.log(id);
     let 찾은상품 = props.shoes.find(e=>e.id == id);
 
-    setTimeout(()=>{showAlert(false)}, 2000);
 
+    // mount, update시 실행됨
+    useEffect(()=>{
+        let a = setTimeout(()=>{showAlert(false)}, 2000);
+        console.log('useEffect')
+        return ()=>{
+            console.log('cleanup')
+            // cleanUp function
+            // useEffect가 실행되기 전에 실행시키고 싶은 함수
+            // 리액트 특성상 재랜더링이 잦음 보통 타이머를 놓는다면 이 부분에서 기존타이머를 제거
+            clearTimeout(a);
+
+            // 기존 데이터 요청은 제거해주세요~ 등등의 기능
+        }
+    }, []) // dependency를 설정해주면 count가 변할때만 useEffect가 실행됨, deps가 비어있으면 mount될때만 실행됨
+
+    useEffect(()=>{
+        if (isNaN(value)) {
+            console.log("숫자만 입력하세요");
+            alert("숫자만 입력하세요");
+        }
+
+    })
 
 
 
     return (
         <div className="container">
             {/*{count}*/}
-            {alert==true? <Alert/> : null}
+            {text==true? <Alert/> : null}
+            <input onChange={(e)=>{
+                changeValue(e.target.value);
+                // console.log(value);
+            }}/>
 
             <button onClick={()=>{ setCount(count+1)}}>버튼</button>
             <div className="row">
