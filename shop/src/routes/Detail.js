@@ -40,11 +40,9 @@ function ItemDetail(props) {
 
     useEffect(()=>{
         if (isNaN(value)) {
-            console.log("숫자만 입력하세요");
             alert("숫자만 입력하세요");
         }
-
-    })
+    }, [value])
 
 
 

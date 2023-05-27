@@ -7,10 +7,11 @@ import bg from './img/bg.png'
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import ItemDetail from "./routes/Detail";
+import axios from "axios";
 
 function App() {
 
-    let [shoes] = useState(data)
+    let [shoes, addShoes] = useState(data)
     let navigate = useNavigate();
 
     return (
@@ -38,6 +39,19 @@ function App() {
                             }
 
                         </div>
+                        <button onClick={()=>{
+                            axios.get('https://codingapple1.github.io/shop/data2.json')
+                                .then((결과)=>{
+                                    let newData = [...shoes]
+                                    newData = newData.concat(결과.data)
+                                    // console.log(newData)
+                                    addShoes(newData)
+                                })
+                                .catch(()=>{
+                                    console.log('실패')
+                                })
+
+                        }}>버튼</button>
                     </div>
                     </>
                 }/>
