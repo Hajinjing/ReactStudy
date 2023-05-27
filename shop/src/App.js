@@ -8,11 +8,14 @@ import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import ItemDetail from "./routes/Detail";
 import axios from "axios";
+import Loading from "./Loading";
 
 function App() {
 
     let [shoes, addShoes] = useState(data)
     let navigate = useNavigate();
+    let [call, setNum] = useState(2)
+    let [loading, setLoading] = useState(false)
 
     return (
         <div className="App">
@@ -40,33 +43,38 @@ function App() {
 
                         </div>
                         <button onClick={()=>{
+                            setNum(call+1)
+                            console.log(call);
+                            if (call < 4 ){
+                            setLoading(true)
                             // 로딩중 ui 띄우기
-                            axios.get('https://codingapple1.github.io/shop/data2.json')
+                            axios.get('https://codingapple1.github.io/shop/data'+call+'.json')
                                 .then((결과)=>{
+                                    setLoading(false)
                                     let newData = [...shoes]
                                     // let copy = [...shoes, ...결과.data] // 이렇게도 가능 그럼 concat이 필요 없어짐
                                     newData = newData.concat(결과.data)
-                                    // console.log(newData)
+                                    console.log(newData)
                                     addShoes(newData)
-                                    // 로딩중 ui 숨기기
                                 })
                                 .catch(()=>{
                                     console.log('실패')
+                                    setLoading(false)
                                     // 로딩중 ui 숨기기
                                 })
-                            Promise.all([axios.get('/url1'), axios.get('/url2')]) // 동시에 ajax 요청 여러개
-                                .then(()=>{})
+                            } else {
+                                alert("조회할 데이터가 없습니다.")
+                            }
+                            // Promise.all([axios.get('/url1'), axios.get('/url2')]) // 동시에 ajax 요청 여러개
+                            //     .then(()=>{})
 
                             // fetch('url')
                             //     .then(결과=>rufrhk.json) // JSON => array/object 변환 과정이 필요
                             //     .then(data=>{})
 
 
-// user가 버튼 누른 횟수를 기억해뒀다가 한 번누르면 3,4,5   두 번 누르면 7,8,9 데이터를 가져오도록 숙제..ㅠ
-// 3번 누르면 더보기 버튼 없애기
-// 로딩할땐 로딩중 띄우기
-
                         }}>더보기</button>
+                        {loading == true ? <Loading></Loading> : null}
                     </div>
                     </>
                 }/>
