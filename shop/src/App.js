@@ -40,18 +40,33 @@ function App() {
 
                         </div>
                         <button onClick={()=>{
+                            // 로딩중 ui 띄우기
                             axios.get('https://codingapple1.github.io/shop/data2.json')
                                 .then((결과)=>{
                                     let newData = [...shoes]
+                                    // let copy = [...shoes, ...결과.data] // 이렇게도 가능 그럼 concat이 필요 없어짐
                                     newData = newData.concat(결과.data)
                                     // console.log(newData)
                                     addShoes(newData)
+                                    // 로딩중 ui 숨기기
                                 })
                                 .catch(()=>{
                                     console.log('실패')
+                                    // 로딩중 ui 숨기기
                                 })
+                            Promise.all([axios.get('/url1'), axios.get('/url2')]) // 동시에 ajax 요청 여러개
+                                .then(()=>{})
 
-                        }}>버튼</button>
+                            // fetch('url')
+                            //     .then(결과=>rufrhk.json) // JSON => array/object 변환 과정이 필요
+                            //     .then(data=>{})
+
+
+// user가 버튼 누른 횟수를 기억해뒀다가 한 번누르면 3,4,5   두 번 누르면 7,8,9 데이터를 가져오도록 숙제..ㅠ
+// 3번 누르면 더보기 버튼 없애기
+// 로딩할땐 로딩중 띄우기
+
+                        }}>더보기</button>
                     </div>
                     </>
                 }/>
