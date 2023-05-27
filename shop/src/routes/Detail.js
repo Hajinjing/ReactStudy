@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import button from "bootstrap/js/src/button";
+import {Nav} from 'react-bootstrap';
 
 /*useEffect 사용 이유
 html랜더링 후에 동작함
@@ -17,6 +18,7 @@ function ItemDetail(props) {
     let [count, setCount] = useState(0)
     let [text, showAlert] = useState(true);
     let [value, changeValue] = useState('')
+    let [탭, 탭변경] = useState(0)
 
     let {id} = useParams();
     // console.log(id);
@@ -68,10 +70,33 @@ function ItemDetail(props) {
                     <button className="btn btn-danger">주문하기</button>
                 </div>
             </div>
+            <Nav variant="tabs"  defaultActiveKey="link0">
+                <Nav.Item>
+                    <Nav.Link onClick={()=>{탭변경(0)}} eventKey="link0">버튼0</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link onClick={()=>{탭변경(1)}} eventKey="link1">버튼1</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link onClick={()=>{탭변경(2)}} eventKey="link2">버튼2</Nav.Link>
+                </Nav.Item>
+            </Nav>
+            <TabComponent 탭={탭}/>
+
         </div>
     )
 }
 
+function TabComponent(탭) {
+    if (탭 == 0) {
+        return <div>내용0</div>
+    } else if(탭 == 1) {
+        return <div>내용1</div>
+    } else {
+        return <div>내용2</div>
+    }
+    // return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]  // if문 없이하는법
+}
 function Alert() {
     return (
         <div className={"alert alert-warnig"}>2초이내 구매시 할인</div>
