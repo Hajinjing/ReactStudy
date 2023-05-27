@@ -19,6 +19,8 @@ function ItemDetail(props) {
     let [text, showAlert] = useState(true);
     let [value, changeValue] = useState('')
     let [탭, 탭변경] = useState(0)
+    let [effect, setEffect] = useState('')
+
 
     let {id} = useParams();
     // console.log(id);
@@ -28,13 +30,13 @@ function ItemDetail(props) {
     // mount, update시 실행됨
     useEffect(()=>{
         let a = setTimeout(()=>{showAlert(false)}, 2000);
-        console.log('useEffect')
+        setEffect('end')
         return ()=>{
-            console.log('cleanup')
             // cleanUp function
             // useEffect가 실행되기 전에 실행시키고 싶은 함수
             // 리액트 특성상 재랜더링이 잦음 보통 타이머를 놓는다면 이 부분에서 기존타이머를 제거
             clearTimeout(a);
+            setEffect('')
 
             // 기존 데이터 요청은 제거해주세요~ 등등의 기능
         }
@@ -49,7 +51,7 @@ function ItemDetail(props) {
 
 
     return (
-        <div className="container">
+        <div className={"container start " + effect}>
             {/*{count}*/}
             {text==true? <Alert/> : null}
             <input onChange={(e)=>{
@@ -87,15 +89,20 @@ function ItemDetail(props) {
     )
 }
 
-function TabComponent(탭) {
-    if (탭 == 0) {
-        return <div>내용0</div>
-    } else if(탭 == 1) {
-        return <div>내용1</div>
-    } else {
-        return <div>내용2</div>
-    }
-    // return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]  // if문 없이하는법
+function TabComponent({탭}) {
+    let [fade, setFade] = useState('')
+    useEffect(()=>{
+        let a = setTimeout(()=>{setFade('end')}, 100)
+        // setFade('end')
+        return ()=>{
+            // clearTimeout(a)
+            setFade('')
+        }
+    },[탭]) // 탭이 변경될때마다 동작
+    return (
+        <div className={'start ' + fade}>
+            { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭] }
+        </div>)
 }
 function Alert() {
     return (

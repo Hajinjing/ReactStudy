@@ -71,7 +71,6 @@ function App() {
                     </>
                 }/>
                 <Route path={"/detail/:id"} element={<ItemDetail shoes={shoes}/>} />
-
                 {/*nested routes /about/member 로 접근했을때, element가 2개 보임*/}
                 <Route path={"/about"} element={<About/>}>
                     <Route path={"member"} element={<div>멤버임</div>} /> {/* 어디에 보여줄지 정하려면 <Outlet> */}
