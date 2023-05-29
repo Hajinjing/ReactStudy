@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
-import {Provider} from "react-redux";
+import {Provider} from "react-redux"; // 컴포넌트간 state 공유가 편리함
 import store from "./store.js"
 
 
