@@ -4,6 +4,9 @@ import button from "bootstrap/js/src/button";
 import {Nav} from 'react-bootstrap';
 
 import {Context1} from './../App.js'
+import {useDispatch} from "react-redux";
+
+import {addCart} from "../store";
 
 /*useEffect 사용 이유
 html랜더링 후에 동작함
@@ -28,6 +31,9 @@ function ItemDetail(props) {
     let {id} = useParams();
     // console.log(id);
     let 찾은상품 = props.shoes.find(e=>e.id == id);
+    console.log(찾은상품) // 이 object를 cartData array에 push 해주면 됨..
+
+    let dispatch = useDispatch() // store.js로 요청보내주는 함수
 
 
     // mount, update시 실행됨
@@ -72,7 +78,7 @@ function ItemDetail(props) {
                     <h4 className="pt-5">{props.shoes[0].title}</h4>
                     <p>{찾은상품.content}</p>
                     <p>{찾은상품.price}원</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <button onClick={()=>{dispatch(addCart(찾은상품.content))}} className="btn btn-danger">주문하기</button>
                 </div>
             </div>
             <Nav variant="tabs"  defaultActiveKey="link0">
