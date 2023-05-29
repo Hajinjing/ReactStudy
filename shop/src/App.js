@@ -16,10 +16,9 @@ export  let Context1 = createContext() // state보관함
 function App() {
 
     useEffect(()=>{
-        localStorage.setItem('watched', JSON.stringify([]))
-        return  (
-            localStorage.setItem('watched', JSON.stringify(watch))
-        )
+        if (localStorage.getItem('watched') == null){
+            localStorage.setItem('watched', JSON.stringify([]))
+        }
     },[])
 
     let obj = {name:'kim'}
@@ -51,7 +50,6 @@ function App() {
                     </Nav>
                 </Container>
             </Navbar>
-                    dd{watch}
             <Routes>
                 <Route path={"/"} element={
                     <>
@@ -59,7 +57,7 @@ function App() {
                     <div className="container">
                         <div className="row">
                             {
-                                <ItemInfo shoes={shoes} watch={watch} setWatched={setWatched}/>
+                                <ItemInfo shoes={shoes} navigate={navigate}/>
                             }
 
                         </div>
@@ -154,10 +152,8 @@ function ItemInfo(props) {
         props.shoes.map(function (a, i) {
             return (
                 <div onClick={()=>{
-                    let copy = [...props.watch]
-                    copy.push(a.id)
-                    props.setWatched(copy)
-                    localStorage.setItem('watched', JSON.stringify(props.watch))
+                    props.navigate("/detail/"+i)
+
                 }} className={"col-md-4"} key={i}>
                     {/*<img src={props.shoes[i].imageUrl} width="80%"/>*/}
                     <img src={'https://codingapple1.github.io/shop/shoes'+(i+1)+'.jpg'} width="80%"/>

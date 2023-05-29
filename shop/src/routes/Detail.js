@@ -57,6 +57,15 @@ function ItemDetail(props) {
         }
     }, [value])
 
+    useEffect(()=>{
+        let watched = localStorage.getItem('watched')
+        let temp = JSON.parse(watched)
+        temp.push(찾은상품.id)
+        temp = new Set(temp)
+        temp = Array.from(temp)
+        localStorage.setItem('watched', JSON.stringify(temp))
+    },[])
+
 
 
     return (
