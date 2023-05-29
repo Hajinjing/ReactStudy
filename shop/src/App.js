@@ -31,7 +31,7 @@ function App() {
                         <Nav.Link onClick={()=>{ navigate("/")}}>Home</Nav.Link>
                         {/*<Nav.Link onClick={()=>{ navigate(-1)}}>뒤로갸기</Nav.Link>*/}
                         {/*<Nav.Link href="/">Home</Nav.Link>*/}
-                        <Nav.Link href="#features">Cart</Nav.Link>
+                        <Nav.Link onClick={()=>{ navigate("cart")}}>Cart</Nav.Link>
                         <Nav.Link onClick={()=>{ navigate("/detail")}}>About</Nav.Link>
                     </Nav>
                 </Container>

@@ -30,18 +30,39 @@ let cartData = createSlice({
         {id : 2, name : 'Grey Yordan', count : 1}
     ],
     reducers : {
-        changeCount(state, action) {
-            state.find(e=>e.id==action.payload).count += 1
+        upCount(state, action) {
+            state.find(e=>e.id==action.payload).count++
+            // let = 번호 state.findIndex((a)=>{return a.id == action.payload})
+            // state[번호].count++
         },
-        addCart(state, action) {
-            console.log(action.payload)
-            state.push(action.payload)
-            console.log("찾은상품 : "+state[0].title)
+        downCount(state, action) {
+            if (state[action.payload].count > 1){
+                state.find(e=>e.id==action.payload).count--
+            } else {
+                alert("수량이 1개인 상품입니다, 장바구니에서 삭제하시겠습니까?")
+            }
+        },
+        addItem(state, action) {
+            console.log("진입 : " + state.findIndex((a)=>{return a.id==action.payload.id}))
+            if(state.findIndex((a)=>{return a.id==action.payload.id}) < 0) {
+                state.push(action.payload)
+            } else {
+                console.log("수량을 추가합니다.", action.payload.id)
+                state.find(e=>e.id==action.payload.id).count++
+                // upCount(action.payload.id)
+            }
 
+            // if ()
+            // state.push(action.payload)
+        },
+        removeItem(state, action) {
+            let 번호 = state.findIndex((a)=>{return a.id == action.payload})
+            state.splice(번호,1)
         }
+
     }
 })
-export let { changeCount, addCart } = cartData.actions
+export let { upCount,downCount, addItem, removeItem } = cartData.actions
 
 
 export default configureStore({
