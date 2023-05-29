@@ -1,16 +1,19 @@
 import './App.css';
-import {createContext, useEffect, useState} from "react";
+import {lazy, Suspense, createContext, useEffect, useState} from "react";
 import {Button, Container, Nav, Navbar} from 'react-bootstrap';
 import bg from './img/bg.png'
 // import ddd from './data.js';
 // import {a, b} from './data.js'; // 중괄호로 가져올때는 export의 변수명을 그대로 가져와서 써야조
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import ItemDetail from "./routes/Detail";
 import axios from "axios";
 import Loading from "./Loading";
-import Cart from "./routes/Cart.js"
+import { useQuery } from '@tanstack/react-query'
 
+// import ItemDetail from "./routes/Detail";
+// import Cart from "./routes/Cart.js"
+const ItemDetail = lazy(()=>import("./routes/Detail"))
+const Cart = lazy(()=>import("./routes/Cart"))
 export  let Context1 = createContext() // state보관함
 
 function App() {
@@ -25,7 +28,6 @@ function App() {
     localStorage.setItem('data', JSON.stringify(obj))
     let 꺼낸거 = localStorage.getItem('data')
 
-    console.log(JSON.parse(꺼낸거).name)
 
     let [재고] = useState([10, 11, 12])
 
@@ -34,7 +36,17 @@ function App() {
     let [call, setNum] = useState(2)
     let [loading, setLoading] = useState(false)
 
-    let [watch, setWatched] = useState([])
+    axios.get('https://codingapple1.github.io/userdata.json').then((결과)=>{
+        console.log(결과.data)
+    })
+
+    let result = useQuery(['작명'], ()=>{
+        return axios.get('https://codingapple1.github.io/userdata.json').then((결과)=>{
+            return 결과.data
+        })
+
+    })
+    console.log("이름 : " + result.name)
 
     return (
         <div className="App">
@@ -48,8 +60,13 @@ function App() {
                         <Nav.Link onClick={()=>{ navigate("cart")}}>Cart</Nav.Link>
                         <Nav.Link onClick={()=>{ navigate("/detail")}}>About</Nav.Link>
                     </Nav>
+                    <Nav className={"me-auto"}>
+                        {result.isLoading ? '로딩중' : result.data.name}
+                        {result.error && '에러남'}
+                    </Nav>
                 </Container>
             </Navbar>
+            <Suspense fallback={<div>로딩중</div>}>
             <Routes>
                 <Route path={"/"} element={
                     <>
@@ -99,7 +116,7 @@ function App() {
                 }/>
                 <Route path={"/detail/:id"} element={
                     <Context1.Provider value={{ 재고, shoes }}>
-                        <ItemDetail shoes={shoes}/>
+                            <ItemDetail shoes={shoes}/>
                     </Context1.Provider>
                     } />
 
@@ -123,8 +140,7 @@ function App() {
                     <Route />
                 </Route>
             </Routes>
-
-
+            </Suspense>
         </div>
     );
 }
