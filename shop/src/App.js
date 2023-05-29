@@ -1,5 +1,5 @@
 import './App.css';
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import {Button, Container, Nav, Navbar} from 'react-bootstrap';
 import bg from './img/bg.png'
 // import ddd from './data.js';
@@ -15,12 +15,27 @@ export  let Context1 = createContext() // state보관함
 
 function App() {
 
+    useEffect(()=>{
+        localStorage.setItem('watched', JSON.stringify([]))
+        return  (
+            localStorage.setItem('watched', JSON.stringify(watch))
+        )
+    },[])
+
+    let obj = {name:'kim'}
+    localStorage.setItem('data', JSON.stringify(obj))
+    let 꺼낸거 = localStorage.getItem('data')
+
+    console.log(JSON.parse(꺼낸거).name)
+
     let [재고] = useState([10, 11, 12])
 
     let [shoes, addShoes] = useState(data)
     let navigate = useNavigate();
     let [call, setNum] = useState(2)
     let [loading, setLoading] = useState(false)
+
+    let [watch, setWatched] = useState([])
 
     return (
         <div className="App">
@@ -36,6 +51,7 @@ function App() {
                     </Nav>
                 </Container>
             </Navbar>
+                    dd{watch}
             <Routes>
                 <Route path={"/"} element={
                     <>
@@ -43,7 +59,7 @@ function App() {
                     <div className="container">
                         <div className="row">
                             {
-                                <ItemInfo shoes={shoes}/>
+                                <ItemInfo shoes={shoes} watch={watch} setWatched={setWatched}/>
                             }
 
                         </div>
@@ -137,7 +153,12 @@ function ItemInfo(props) {
     return (
         props.shoes.map(function (a, i) {
             return (
-                <div className={"col-md-4"} key={i}>
+                <div onClick={()=>{
+                    let copy = [...props.watch]
+                    copy.push(a.id)
+                    props.setWatched(copy)
+                    localStorage.setItem('watched', JSON.stringify(props.watch))
+                }} className={"col-md-4"} key={i}>
                     {/*<img src={props.shoes[i].imageUrl} width="80%"/>*/}
                     <img src={'https://codingapple1.github.io/shop/shoes'+(i+1)+'.jpg'} width="80%"/>
                     <h4>{props.shoes[i].title}</h4>
