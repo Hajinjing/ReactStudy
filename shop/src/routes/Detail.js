@@ -1,7 +1,9 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import button from "bootstrap/js/src/button";
 import {Nav} from 'react-bootstrap';
+
+import {Context1} from './../App.js'
 
 /*useEffect 사용 이유
 html랜더링 후에 동작함
@@ -14,6 +16,7 @@ html랜더링이 느려짐
 
 function ItemDetail(props) {
 
+    let {재고, shoes} = useContext(Context1) //보관함 해체 그럼 사용 가능
 
     let [count, setCount] = useState(0)
     let [text, showAlert] = useState(true);
@@ -83,7 +86,7 @@ function ItemDetail(props) {
                     <Nav.Link onClick={()=>{탭변경(2)}} eventKey="link2">버튼2</Nav.Link>
                 </Nav.Item>
             </Nav>
-            <TabComponent 탭={탭}/>
+            <TabComponent 탭={탭} shoes={props.shoes}/>
 
         </div>
     )
@@ -91,6 +94,9 @@ function ItemDetail(props) {
 
 function TabComponent({탭}) {
     let [fade, setFade] = useState('')
+    let {재고, shoes} = useContext(Context1)
+
+
     useEffect(()=>{
         let a = setTimeout(()=>{setFade('end')}, 100)
         // setFade('end')
@@ -101,7 +107,7 @@ function TabComponent({탭}) {
     },[탭]) // 탭이 변경될때마다 동작
     return (
         <div className={'start ' + fade}>
-            { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭] }
+            { [<div>{shoes[0].title}</div>, <div>{재고}</div>, <div>내용2</div>][탭] }
         </div>)
 }
 function Alert() {
